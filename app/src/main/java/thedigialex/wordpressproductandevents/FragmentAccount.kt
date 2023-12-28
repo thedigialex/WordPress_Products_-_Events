@@ -13,7 +13,10 @@ class FragmentAccount(private val headerController: HeaderController) : Fragment
         savedInstanceState: Bundle?
     ): View {
         val rootView: View = inflater.inflate(R.layout.fragment_account, container, false)
-        headerController.updateActivityTitle("Account")
         return rootView
+    }
+    override fun onResume() {
+        super.onResume()
+        headerController.updateActivityTitle("Account")
     }
 }

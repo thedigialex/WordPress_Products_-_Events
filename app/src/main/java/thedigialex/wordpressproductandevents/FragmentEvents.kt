@@ -1,4 +1,5 @@
 package thedigialex.wordpressproductandevents
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,10 @@ class FragmentEvents(private val headerController: HeaderController) : Fragment(
         savedInstanceState: Bundle?
     ): View {
         val rootView: View = inflater.inflate(R.layout.fragment_events, container, false)
-        headerController.updateActivityTitle("Events")
         return rootView
+    }
+    override fun onResume() {
+        super.onResume()
+        headerController.updateActivityTitle("Events")
     }
 }

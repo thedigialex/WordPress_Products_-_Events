@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         loadingLayout.visibility = View.VISIBLE
         val context = applicationContext
         val queue: RequestQueue = Volley.newRequestQueue(context)
-        val apiHost = "https://honey.thedigialex.net/wp-json"
+        val apiHost = getString(R.string.website_url) + "/wp-json"
         val authEndpoint = "$apiHost/jwt-auth/v1/token"
 
         val params = JSONObject()
@@ -99,8 +99,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(context, "Authentication failed: ${error.message}", Toast.LENGTH_LONG).show()
             }
         )
-
         queue.add(jsonObjectRequest)
     }
-
 }
