@@ -9,18 +9,46 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     private var signUp = false
+    private var loggedInAccount: Account? = null
+    private lateinit var accountDao: AccountDao
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val db = AppDatabase.getDatabase(this)
+        accountDao = db.accountDao()
+        GlobalScope.launch(Dispatchers.IO) {
+            val allAccounts = accountDao.getAllAccounts()
+            withContext(Dispatchers.Main) {
+                for (account in allAccounts) {
+                    if(account.loggedIn) {
+                        loggedInAccount = account
+                    }
+                }
+                if(loggedInAccount != null){
+                    sendToDashboard(loggedInAccount!!.username)
+                }
+            }
+        }
     }
+    private fun sendToDashboard(username: String) {
+        val intent = Intent(this, DashboardActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        intent.putExtra("USERNAME", username)
+        startActivity(intent)
+    }
+
     fun showSignFormLayout(view: View) {
         if(view.id == R.id.signupButton){
             signUp = true
@@ -84,14 +112,29 @@ class MainActivity : AppCompatActivity() {
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, authEndpoint, params,
             { response ->
+                val responseString = response.toString()
+                Log.d("Response", responseString) // Log the full response
+
+                val userName = response.optString("first_name", "")
+                Log.e("User", userName)
                 loadingLayout.visibility = View.GONE
                 signFormLayout.visibility = View.VISIBLE
                 val token = response.getString("token")
                 val sharedPrefs = context.getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE)
                 sharedPrefs.edit().putString("jwt_token", token).apply()
-                val intent = Intent(context, DashboardActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(intent)
+                val newAccount = Account(username = username, token = token, name = userName, loggedIn = true)
+                CoroutineScope(Dispatchers.IO).launch {
+                    val existingAccount = accountDao.findAccountByUsername(username)
+                    if (existingAccount == null) {
+                        accountDao.insert(newAccount)
+                    } else {
+                        existingAccount.loggedIn = true
+                        accountDao.update(existingAccount)
+                    }
+                    withContext(Dispatchers.Main) {
+                        sendToDashboard(username)
+                    }
+                }
             },
             { error ->
                 loadingLayout.visibility = View.GONE

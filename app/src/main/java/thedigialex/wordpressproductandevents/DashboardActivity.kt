@@ -12,15 +12,19 @@ class DashboardActivity  : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-        setUpFooterFragments()
+        val username = intent.getStringExtra("USERNAME")
+
+        if (username != null) {
+            setUpFooterFragments(username)
+        }
     }
-    private fun setUpFooterFragments(){
+    private fun setUpFooterFragments(username: String){
         val headerController = HeaderController(findViewById(R.id.header))
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
         val viewPager = findViewById<ViewPager2>(R.id.view_pager)
         val vpAdapter = VPAdapter(supportFragmentManager, lifecycle)
         vpAdapter.addFragment(FragmentProducts(headerController), "Products")
-        vpAdapter.addFragment(FragmentAccount(headerController), "Account")
+        vpAdapter.addFragment(FragmentAccount(headerController, this, username), "Account")
         vpAdapter.addFragment(FragmentEvents(headerController), "Events")
         viewPager.adapter = vpAdapter
         TabLayoutMediator(tabLayout, viewPager) { tab: TabLayout.Tab, position: Int ->
