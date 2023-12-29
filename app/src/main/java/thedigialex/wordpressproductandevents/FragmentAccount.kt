@@ -2,7 +2,6 @@ package thedigialex.wordpressproductandevents
 
 import android.content.Context
 import android.os.Bundle
-import android.os.UserHandle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FragmentAccount(private val headerController: HeaderController, private val context: Context, private val username: String) : Fragment() {
+class FragmentAccount(private val headerController: HeaderController, private val context: Context, private val account: Account) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,15 +36,10 @@ class FragmentAccount(private val headerController: HeaderController, private va
         val db = AppDatabase.getDatabase(context)
         val accountDao = db.accountDao()
         GlobalScope.launch(Dispatchers.IO) {
-            val account = accountDao.findAccountByUsername(username)
-            if(account != null){
+            account.loggedIn = false
+            CoroutineScope(Dispatchers.IO).launch {
+                accountDao.update(account)
                 withContext(Dispatchers.Main) {
-                    account.loggedIn = false
-                    CoroutineScope(Dispatchers.IO).launch {
-                        accountDao.update(account)
-                        withContext(Dispatchers.Main) {
-                        }
-                    }
                 }
             }
         }
