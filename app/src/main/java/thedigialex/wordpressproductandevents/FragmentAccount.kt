@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -22,6 +23,7 @@ class FragmentAccount(private val headerController: HeaderController, private va
     ): View {
         val rootView: View = inflater.inflate(R.layout.fragment_account, container, false)
         val logOutButton = rootView.findViewById<Button>(R.id.logOutButton)
+        setUpViews(rootView)
         logOutButton.setOnClickListener {
             logOut()
         }
@@ -43,5 +45,9 @@ class FragmentAccount(private val headerController: HeaderController, private va
                 }
             }
         }
+    }
+    private fun setUpViews(rootView: View){
+        val userNameView = rootView.findViewById<TextView>(R.id.userNameView)
+        userNameView.text = account.username
     }
 }

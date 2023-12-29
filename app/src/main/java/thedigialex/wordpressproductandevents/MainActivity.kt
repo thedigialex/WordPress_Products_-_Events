@@ -115,6 +115,7 @@ class MainActivity : AppCompatActivity() {
                         accountDao.insert(newAccount)
                     } else {
                         existingAccount.loggedIn = true
+                        existingAccount.token = token
                         accountDao.update(existingAccount)
                     }
                     withContext(Dispatchers.Main) {

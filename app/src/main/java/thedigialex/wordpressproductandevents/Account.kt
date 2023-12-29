@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 data class Account(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val username: String,
-    val token: String,
+    var token: String,
     val name: String,
     var loggedIn: Boolean
 )

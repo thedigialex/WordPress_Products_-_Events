@@ -1,6 +1,7 @@
 package thedigialex.wordpressproductandevents
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,35 +20,39 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class FragmentProducts(private val headerController: HeaderController) : Fragment() {
+    private var rootView: View? = null
+    private var slotHolder: LinearLayout? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val rootView: View = inflater.inflate(R.layout.fragment_products, container, false)
-        fetchProducts(rootView)
+    ): View? {
+        rootView = inflater.inflate(R.layout.fragment_products, container, false)
+        fetchProducts()
         return rootView
     }
     override fun onResume() {
         super.onResume()
         headerController.updateActivityTitle("Products")
     }
-    private fun createView(rootView: View, product: Product) {
-        val slotHolder: LinearLayout = rootView.findViewById(R.id.SlotHolder)
+    private fun createView(product: Product) {
         val inflater = LayoutInflater.from(requireContext())
         val view: View = inflater.inflate(R.layout.product_slot, slotHolder, false)
         val productNameTextView: TextView = view.findViewById(R.id.productName)
         productNameTextView.text = product.name
+        val productPriceTextView: TextView = view.findViewById(R.id.productPrice)
+        productPriceTextView.text = product.price
 
         val productImage: ImageView = view.findViewById(R.id.productImage)
         Glide.with(view.context)
             .load(product.imageUrl)
             .into(productImage)
-        slotHolder.addView(view)
+        slotHolder?.addView(view)
     }
     @OptIn(DelicateCoroutinesApi::class)
-    private fun fetchProducts(rootView: View) {
-        val progressBar: ProgressBar = rootView.findViewById(R.id.progressBar)
+    private fun fetchProducts() {
+        slotHolder = rootView?.findViewById(R.id.SlotHolder)
+        val progressBar: ProgressBar = rootView!!.findViewById(R.id.progressBar)
         val woocommerceService = WooCommerceService(getString(R.string.consumerKey), getString(R.string.consumerSecret))
         GlobalScope.launch(Dispatchers.Main) {
             val productsJson = withContext(Dispatchers.IO) {
@@ -58,15 +63,19 @@ class FragmentProducts(private val headerController: HeaderController) : Fragmen
 
             for (i in 0 until jsonArray.length()) {
                 val productObject: JSONObject = jsonArray.getJSONObject(i)
-
-                val productName = productObject.getString("name")
-                val imageUrl = productObject.getJSONArray("images").getJSONObject(0).getString("src")
+                Log.d("ProductJSON", productObject.toString())
+                val id = productObject.getInt("id")
+                val name = productObject.getString("name")
+                val permalink = productObject.getString("permalink")
                 val price = productObject.getString("price")
-                val productUrl = productObject.getString("permalink")
-
-                val product = Product(productName, imageUrl, price, productUrl)
+                val imageUrl = productObject.getJSONArray("images").getJSONObject(0).getString("src")
+                val stockStatus = productObject.getString("stock_status")
+                val type = productObject.getString("type")
+                val product = Product(id, name, permalink, price, imageUrl, stockStatus, type)
                 productList.add(product)
-                createView(rootView, product)
+                if(product.stockStatus == "instock"){
+                    createView(product)
+                }
             }
             progressBar.visibility = View.GONE
         }
