@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -19,7 +20,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 
-class FragmentProducts(private val headerController: HeaderController) : Fragment() {
+class FragmentProducts(private val headerController: HeaderController, private val  cart: MutableList<Product>) : Fragment() {
     private var rootView: View? = null
     private var slotHolder: LinearLayout? = null
     override fun onCreateView(
@@ -41,7 +42,13 @@ class FragmentProducts(private val headerController: HeaderController) : Fragmen
         val productNameTextView: TextView = view.findViewById(R.id.productName)
         productNameTextView.text = product.name
         val productPriceTextView: TextView = view.findViewById(R.id.productPrice)
-        productPriceTextView.text = product.price
+        productPriceTextView.text = product.price.toString()
+
+        val addToCartButton = view.findViewById<Button>(R.id.addToCartButton)
+        addToCartButton.setOnClickListener {
+            addProductToCart(product)
+            headerController.updateActivityTitle("Products")
+        }
 
         val productImage: ImageView = view.findViewById(R.id.productImage)
         Glide.with(view.context)
@@ -53,7 +60,7 @@ class FragmentProducts(private val headerController: HeaderController) : Fragmen
     private fun fetchProducts() {
         slotHolder = rootView?.findViewById(R.id.SlotHolder)
         val progressBar: ProgressBar = rootView!!.findViewById(R.id.progressBar)
-        val woocommerceService = WooCommerceService(getString(R.string.consumerKey), getString(R.string.consumerSecret))
+        val woocommerceService = WooCommerceService(requireContext(), getString(R.string.consumerKey), getString(R.string.consumerSecret))
         GlobalScope.launch(Dispatchers.Main) {
             val productsJson = withContext(Dispatchers.IO) {
                 woocommerceService.getProducts()
@@ -67,7 +74,8 @@ class FragmentProducts(private val headerController: HeaderController) : Fragmen
                 val id = productObject.getInt("id")
                 val name = productObject.getString("name")
                 val permalink = productObject.getString("permalink")
-                val price = productObject.getString("price")
+                val priceString = productObject.getString("price")
+                val price = priceString.toDoubleOrNull() ?: 0.0
                 val imageUrl = productObject.getJSONArray("images").getJSONObject(0).getString("src")
                 val stockStatus = productObject.getString("stock_status")
                 val type = productObject.getString("type")
@@ -78,6 +86,14 @@ class FragmentProducts(private val headerController: HeaderController) : Fragmen
                 }
             }
             progressBar.visibility = View.GONE
+        }
+    }
+    private fun addProductToCart(newProduct: Product) {
+        val existingProduct = cart.find { it.id == newProduct.id }
+        if (existingProduct != null) {
+            existingProduct.quantity++
+        } else {
+            cart.add(newProduct)
         }
     }
 }

@@ -3,4 +3,7 @@
     <string name="website_url">https://honey.thedigialex.net</string>
     <string name="consumerKey">ck_84a0914bd7ea3c1e55081de33031f603cb2406c9</string>
     <string name="consumerSecret">cs_a8494ff08f27799f9998f0aeb07f9680f656b3bf</string>
+
+    <string name="eventConsumerKey">ck_4bcc5e3f39e2fed7d22ead6daf364284214bdfd0</string>
+    <string name="eventConsumerSecret">cs_d9ce5310820c2a6dd1a6e8c4b21f080ff357f795</string>
 </resources>

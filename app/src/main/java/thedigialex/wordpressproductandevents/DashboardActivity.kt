@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 
 class DashboardActivity  : AppCompatActivity() {
     private var loggedInAccount: Account? = null
+    private val cart: MutableList<Product> = mutableListOf()
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,20 +30,20 @@ class DashboardActivity  : AppCompatActivity() {
                 loggedInAccount = accountDao.findAccountByUsername(username)
                 loggedInAccount?.let {
                     withContext(Dispatchers.Main) {
-                        setUpFooterFragments(it)
+                        setUpHeaderAndFooter(it)
                     }
                 }
             }
         }
     }
-    private fun setUpFooterFragments(account: Account){
-        val headerController = HeaderController(findViewById(R.id.header))
+    private fun setUpHeaderAndFooter(account: Account){
+        val headerController = HeaderController(findViewById(R.id.header), findViewById(R.id.cartView), cart)
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
         val viewPager = findViewById<ViewPager2>(R.id.view_pager)
         val vpAdapter = VPAdapter(supportFragmentManager, lifecycle)
-        vpAdapter.addFragment(FragmentProducts(headerController), "Products")
-        vpAdapter.addFragment(FragmentAccount(headerController, this, account), "Account")
+        vpAdapter.addFragment(FragmentProducts(headerController, cart), "Products")
         vpAdapter.addFragment(FragmentEvents(headerController), "Events")
+        vpAdapter.addFragment(FragmentAccount(headerController, this, account), "Account")
         viewPager.adapter = vpAdapter
         TabLayoutMediator(tabLayout, viewPager) { tab: TabLayout.Tab, position: Int ->
             val tabView = LayoutInflater.from(tabLayout.context)
