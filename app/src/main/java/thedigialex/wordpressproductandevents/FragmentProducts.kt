@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -42,7 +43,7 @@ class FragmentProducts(private val headerController: HeaderController, private v
         val productNameTextView: TextView = view.findViewById(R.id.productName)
         productNameTextView.text = product.name
         val productPriceTextView: TextView = view.findViewById(R.id.productPrice)
-        productPriceTextView.text = product.price.toString()
+        productPriceTextView.text = "$ " + product.price.toString()
 
         val addToCartButton = view.findViewById<Button>(R.id.addToCartButton)
         addToCartButton.setOnClickListener {
@@ -55,6 +56,19 @@ class FragmentProducts(private val headerController: HeaderController, private v
             .load(product.imageUrl)
             .into(productImage)
         slotHolder?.addView(view)
+        addDividerToSlotHolder()
+    }
+
+    private fun addDividerToSlotHolder() {
+        val divider = View(requireContext())
+        val layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            1 // 1dp height for the divider, you can adjust it as needed
+        )
+        layoutParams.setMargins(0, 8, 0, 8) // Add margins if needed (left, top, right, bottom)
+        divider.layoutParams = layoutParams
+
+        slotHolder?.addView(divider)
     }
     @OptIn(DelicateCoroutinesApi::class)
     private fun fetchProducts() {
@@ -82,8 +96,9 @@ class FragmentProducts(private val headerController: HeaderController, private v
                 val product = Product(id, name, permalink, price, imageUrl, stockStatus, type)
                 productList.add(product)
                 if(product.stockStatus == "instock"){
-                    createView(product)
+
                 }
+                createView(product)
             }
             progressBar.visibility = View.GONE
         }

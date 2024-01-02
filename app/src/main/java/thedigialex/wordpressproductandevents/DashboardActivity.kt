@@ -37,7 +37,7 @@ class DashboardActivity  : AppCompatActivity() {
         }
     }
     private fun setUpHeaderAndFooter(account: Account){
-        val headerController = HeaderController(findViewById(R.id.header), findViewById(R.id.cartView), cart)
+        val headerController = HeaderController(findViewById(R.id.header), findViewById(R.id.cartView), cart, applicationContext)
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
         val viewPager = findViewById<ViewPager2>(R.id.view_pager)
         val vpAdapter = VPAdapter(supportFragmentManager, lifecycle)
