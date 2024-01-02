@@ -22,29 +22,30 @@ class HeaderController(rootView: View, private val cartLayout: View, private val
         currentTitle = newTitle
         activityTitleTextView.text = currentTitle
         var cartCount = 0
-        var cartTotal = 0.0
         for (product in cart) {
-            cartTotal += product.price * product.quantity
             cartCount += product.quantity
         }
         cartItemCount.apply {
             visibility = if (cartCount <= 0) View.GONE else View.VISIBLE
             text = if (cartCount <= 0) "" else cartCount.toString()
         }
-        val totalString = "$${String.format("%.2f", cartTotal)}"
-        cartTextView.text = totalString
         cartButton.setOnClickListener {
-            displayCartView()
+            displayCartView(true)
         }
     }
-    private fun displayCartView(){
-        cartLayout.visibility = if (cartLayout.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
+    private fun displayCartView(toggle: Boolean){
+        slotHolder.removeAllViews()
+        if(toggle){
+            cartLayout.visibility = if (cartLayout.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
+        }
         if (cartLayout.visibility == View.VISIBLE) {
+            var cartTotal = 0.0
             for (product in cart) {
+                cartTotal += product.price * product.quantity
                 createView(product)
             }
-        } else {
-            slotHolder.removeAllViews()
+            val totalString = "$${String.format("%.2f", cartTotal)}"
+            cartTextView.text = totalString
         }
     }
 
@@ -58,11 +59,15 @@ class HeaderController(rootView: View, private val cartLayout: View, private val
         productPriceTextView.text = "Qty: " + product.quantity.toString()
         val addToCartButton = view.findViewById<Button>(R.id.addToCartButton)
         addToCartButton.visibility = View.GONE
+        val cartViewButtonLayout = view.findViewById<LinearLayout>(R.id.cartViewButtonLayout)
+        cartViewButtonLayout.visibility = View.VISIBLE
         val removeFromCartButton = view.findViewById<Button>(R.id.removeFromCartButton)
-        removeFromCartButton.visibility = View.VISIBLE
         removeFromCartButton.setOnClickListener {
             removeProductFromCart(product)
-
+        }
+        val addFromCartButton = view.findViewById<Button>(R.id.addFromCartButton)
+        addFromCartButton.setOnClickListener {
+            addProductFromCart(product)
         }
         val productImage: ImageView = view.findViewById(R.id.productImage)
         Glide.with(view.context)
@@ -76,20 +81,27 @@ class HeaderController(rootView: View, private val cartLayout: View, private val
         val divider = View(context)
         val layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
-            1 // 1dp height for the divider, you can adjust it as needed
+            1
         )
-        layoutParams.setMargins(0, 8, 0, 8) // Add margins if needed (left, top, right, bottom)
+        layoutParams.setMargins(0, 8, 0, 8)
         divider.layoutParams = layoutParams
-
-        slotHolder?.addView(divider)
+        slotHolder.addView(divider)
     }
     private fun removeProductFromCart(product: Product){
         val productToRemove = cart.find { it.id == product.id }
         if (productToRemove != null) {
-            cart.remove(productToRemove)
+            productToRemove.quantity--
+            if(productToRemove.quantity <= 0){
+                productToRemove.quantity = 1
+                cart.remove(productToRemove)
+            }
             updateActivityTitle(currentTitle)
-            displayCartView()
-            displayCartView()
+            displayCartView(false)
         }
+    }
+    private fun addProductFromCart(product: Product){
+        product.quantity++
+        updateActivityTitle(currentTitle)
+        displayCartView(false)
     }
 }

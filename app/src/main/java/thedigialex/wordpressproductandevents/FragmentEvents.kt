@@ -47,7 +47,18 @@ class FragmentEvents(private val headerController: HeaderController) : Fragment(
             .load(event.imageUrl)
             .into(eventImageView)
         slotHolder?.addView(view)
+        addDividerToSlotHolder()
+    }
 
+    private fun addDividerToSlotHolder() {
+        val divider = View(requireContext())
+        val layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            1
+        )
+        layoutParams.setMargins(0, 8, 0, 8)
+        divider.layoutParams = layoutParams
+        slotHolder?.addView(divider)
     }
     @OptIn(DelicateCoroutinesApi::class)
     private fun fetchEvents() {

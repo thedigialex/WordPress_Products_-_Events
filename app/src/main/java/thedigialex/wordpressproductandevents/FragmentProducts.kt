@@ -43,7 +43,7 @@ class FragmentProducts(private val headerController: HeaderController, private v
         val productNameTextView: TextView = view.findViewById(R.id.productName)
         productNameTextView.text = product.name
         val productPriceTextView: TextView = view.findViewById(R.id.productPrice)
-        productPriceTextView.text = "$ " + product.price.toString()
+        productPriceTextView.text = "$" + product.price.toString()
 
         val addToCartButton = view.findViewById<Button>(R.id.addToCartButton)
         addToCartButton.setOnClickListener {
@@ -63,11 +63,10 @@ class FragmentProducts(private val headerController: HeaderController, private v
         val divider = View(requireContext())
         val layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
-            1 // 1dp height for the divider, you can adjust it as needed
+            1
         )
-        layoutParams.setMargins(0, 8, 0, 8) // Add margins if needed (left, top, right, bottom)
+        layoutParams.setMargins(0, 8, 0, 8)
         divider.layoutParams = layoutParams
-
         slotHolder?.addView(divider)
     }
     @OptIn(DelicateCoroutinesApi::class)

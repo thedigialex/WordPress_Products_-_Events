@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/lightPrimary">
 
     <!-- Sign Up Button -->
 
@@ -12,7 +12,7 @@
         android:id="@+id/loadingLayout"
         android:layout_width="0dp"
         android:layout_height="240dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/white"
         android:padding="16dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,7 +25,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_centerInParent="true"
-            android:background="@color/purple_200"
+            android:background="@drawable/rounded_background"
+            android:indeterminateDrawable="@drawable/custom_progress_bar"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,8 +39,8 @@
         android:id="@+id/signformLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:padding="16dp"
+        android:background="@color/white"
+        android:padding="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +52,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Name"
+            android:textAppearance="@style/MyTextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +65,7 @@
             android:layout_height="wrap_content"
             android:hint="Email"
             android:inputType="textEmailAddress"
+            android:textAppearance="@style/MyTextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +78,7 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             android:inputType="textPassword"
+            android:textAppearance="@style/MyTextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +110,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textAppearance="@style/MyTextAppearance" />
         </LinearLayout>
 
         <Button
@@ -124,8 +129,8 @@
         android:id="@+id/entryButtonLayout"
         android:layout_width="0dp"
         android:layout_height="240dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:background="@color/white"
+        android:padding="8dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -136,6 +141,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Title"
+            android:textAppearance="@style/MyTextAppearance"
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -146,6 +152,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="words and stuff"
+            android:textAppearance="@style/MyTextAppearance"
             app:layout_constraintBottom_toTopOf="@+id/signupButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.454"
@@ -154,7 +161,6 @@
 
         <Button
             android:id="@+id/signupButton"
-            style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/loginButton"
@@ -168,7 +174,6 @@
 
         <Button
             android:id="@+id/loginButton"
-            style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

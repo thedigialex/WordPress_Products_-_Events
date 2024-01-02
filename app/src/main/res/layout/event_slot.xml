@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/product_background"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -26,7 +27,6 @@
             android:layout_weight="2"
             android:gravity="center_vertical"
             android:textAppearance="@style/MyTextAppearance"
-            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -34,7 +34,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textAppearance="@style/MyTextAppearance"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

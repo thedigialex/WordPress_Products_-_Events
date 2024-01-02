@@ -24,6 +24,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="2"
             android:gravity="end"
             android:orientation="vertical">
@@ -34,17 +36,16 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="Price"
-                android:textColor="@color/textColor" />
+                android:textAppearance="@style/MyTextAppearance" />
 
             <TextView
                 android:id="@+id/productName"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:gravity="center_vertical"
                 android:text="Name"
                 android:textAppearance="@style/MyTextAppearance"
-                android:textColor="@color/textColor"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -52,16 +53,39 @@
                 android:id="@+id/addToCartButton"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="add to cart" />
+                android:layout_weight="2"
+                android:text="add to cart"
+                android:textAppearance="@style/MyTextAppearance" />
 
-            <Button
-                android:id="@+id/removeFromCartButton"
-                android:layout_width="60dp"
+            <LinearLayout
+                android:id="@+id/cartViewButtonLayout"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="-"
-                android:visibility="gone" />
+                android:layout_weight="2"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/addFromCartButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="+" />
+
+                <Button
+                    android:id="@+id/removeFromCartButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="-" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
