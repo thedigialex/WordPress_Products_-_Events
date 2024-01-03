@@ -56,7 +56,7 @@ class FragmentEvents(private val headerController: HeaderController) : Fragment(
             LinearLayout.LayoutParams.MATCH_PARENT,
             1
         )
-        layoutParams.setMargins(0, 8, 0, 8)
+        layoutParams.setMargins(0, 16, 0, 16)
         divider.layoutParams = layoutParams
         slotHolder?.addView(divider)
     }

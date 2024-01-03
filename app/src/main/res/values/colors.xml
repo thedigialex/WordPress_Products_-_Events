@@ -15,7 +15,7 @@
 
     <color name="textColor">#FF000000</color>
     <color name="lightPrimary">#FFE8B5</color>
-    <color name="darkPrimary">#FBCB24</color>
+    <color name="darkPrimary">#FFD882</color>
 
     <color name="darkAccent">#8c643b</color>
 </resources>

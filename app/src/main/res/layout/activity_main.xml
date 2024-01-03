@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightPrimary">
-
-    <!-- Sign Up Button -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="96dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/honeybeelogo" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loadingLayout"
         android:layout_width="0dp"
-        android:layout_height="240dp"
-        android:background="@color/white"
+        android:layout_height="0dp"
+        android:background="@drawable/top_rounded_background"
         android:padding="16dp"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/signformLayout">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -32,59 +40,66 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/signformLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/top_rounded_background"
         android:padding="8dp"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <!-- Name EditText -->
         <EditText
             android:id="@+id/editTextName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Name"
+            android:hint="@string/name"
             android:textAppearance="@style/MyTextAppearance"
+            android:textColor="@color/lightPrimary"
+            android:textColorHighlight="@color/darkPrimary"
+            android:textColorHint="@color/white"
+            android:textColorLink="@color/lightPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Email EditText -->
         <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:textAppearance="@style/MyTextAppearance"
+            android:textColor="@color/lightPrimary"
+            android:textColorHighlight="@color/darkPrimary"
+            android:textColorHint="@color/white"
+            android:textColorLink="@color/lightPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextName" />
 
-        <!-- Password EditText -->
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:textAppearance="@style/MyTextAppearance"
+            android:textColor="@color/lightPrimary"
+            android:textColorHighlight="@color/darkPrimary"
+            android:textColorHint="@color/white"
+            android:textColorLink="@color/lightPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextEmail" />
 
-        <!-- Submit Button -->
         <Button
             android:id="@+id/buttonSubmit"
             android:layout_width="0dp"
@@ -128,13 +143,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/entryButtonLayout"
         android:layout_width="0dp"
-        android:layout_height="240dp"
-        android:background="@color/white"
+        android:layout_height="0dp"
+        android:background="@drawable/top_rounded_background"
         android:padding="8dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/loadingLayout">
 
         <TextView
             android:id="@+id/textView2"
@@ -142,6 +158,7 @@
             android:layout_height="wrap_content"
             android:text="Title"
             android:textAppearance="@style/MyTextAppearance"
+            android:textColor="@color/lightPrimary"
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -153,6 +170,7 @@
             android:layout_height="wrap_content"
             android:text="words and stuff"
             android:textAppearance="@style/MyTextAppearance"
+            android:textColor="@color/lightPrimary"
             app:layout_constraintBottom_toTopOf="@+id/signupButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.454"

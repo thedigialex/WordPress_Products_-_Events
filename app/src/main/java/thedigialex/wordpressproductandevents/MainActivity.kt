@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             else -> !signUp
         }
         if (view.id == R.id.signupButton || view.id == R.id.loginButton) {
-            findViewById<ConstraintLayout>(R.id.entryButtonLayout).visibility = View.GONE
+            findViewById<ConstraintLayout>(R.id.entryButtonLayout).visibility = View.INVISIBLE
         }
         setUpFormLayout()
     }
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun logInUser(username: String, password: String) {
-        val signFormLayout = findViewById<ConstraintLayout>(R.id.signformLayout).apply { visibility = View.GONE }
+        val signFormLayout = findViewById<ConstraintLayout>(R.id.signformLayout).apply { visibility = View.INVISIBLE }
         val loadingLayout = findViewById<ConstraintLayout>(R.id.loadingLayout).apply { visibility = View.VISIBLE }
 
         val context = applicationContext
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
                 val responseString = response.toString()
                 Log.d("Response", responseString)
                 val userName = response.optString("first_name", "")
-                loadingLayout.visibility = View.GONE
+                loadingLayout.visibility = View.INVISIBLE
                 signFormLayout.visibility = View.VISIBLE
                 val token = response.getString("token")
                 val sharedPrefs = context.getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE)
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                 }
             },
             { error ->
-                loadingLayout.visibility = View.GONE
+                loadingLayout.visibility = View.INVISIBLE
                 signFormLayout.visibility = View.VISIBLE
                 Toast.makeText(context, "Authentication failed: ${error.message}", Toast.LENGTH_LONG).show()
             }

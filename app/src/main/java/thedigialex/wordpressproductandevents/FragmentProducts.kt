@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -45,7 +44,7 @@ class FragmentProducts(private val headerController: HeaderController, private v
         val productPriceTextView: TextView = view.findViewById(R.id.productPrice)
         productPriceTextView.text = "$" + product.price.toString()
 
-        val addToCartButton = view.findViewById<Button>(R.id.addToCartButton)
+        val addToCartButton = view.findViewById<Button>(R.id.addFromCartButton)
         addToCartButton.setOnClickListener {
             addProductToCart(product)
             headerController.updateActivityTitle("Products")
@@ -65,7 +64,7 @@ class FragmentProducts(private val headerController: HeaderController, private v
             LinearLayout.LayoutParams.MATCH_PARENT,
             1
         )
-        layoutParams.setMargins(0, 8, 0, 8)
+        layoutParams.setMargins(0, 16, 0, 16)
         divider.layoutParams = layoutParams
         slotHolder?.addView(divider)
     }

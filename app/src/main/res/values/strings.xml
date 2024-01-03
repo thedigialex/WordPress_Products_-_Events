@@ -6,4 +6,7 @@
 
     <string name="eventConsumerKey">ck_4bcc5e3f39e2fed7d22ead6daf364284214bdfd0</string>
     <string name="eventConsumerSecret">cs_d9ce5310820c2a6dd1a6e8c4b21f080ff357f795</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>

@@ -16,7 +16,7 @@
     </style>
     <style name="MyTextAppearance" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/red_hat_display_medium</item>
-        <item name="android:textColor">@color/darkAccent</item>
+        <item name="android:textColor">@color/lightPrimary</item>
         <item name="android:textSize">18sp</item>
     </style>
 </resources>

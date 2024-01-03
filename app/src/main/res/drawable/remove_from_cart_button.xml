@@ -1,0 +1,22 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <layer-list>
+            <item android:top="8dp" android:bottom="8dp" android:left="8dp" android:right="8dp">
+                <shape android:shape="oval">
+                    <solid android:color="@color/darkAccent" />
+                </shape>
+            </item>
+            <item android:drawable="@drawable/ic_minus_small" android:gravity="center" />
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="@color/darkAccent" />
+                </shape>
+            </item>
+            <item android:drawable="@drawable/ic_minus" android:gravity="center" />
+        </layer-list>
+    </item>
+</selector>

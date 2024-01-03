@@ -18,13 +18,15 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Username" />
+                android:text="Username"
+                android:textAppearance="@style/MyTextAppearance" />
 
             <TextView
                 android:id="@+id/userNameView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textAppearance="@style/MyTextAppearance" />
 
             <Button
                 android:id="@+id/logOutButton"

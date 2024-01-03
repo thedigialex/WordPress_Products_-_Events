@@ -57,11 +57,8 @@ class HeaderController(rootView: View, private val cartLayout: View, private val
         productNameTextView.text = product.name
         val productPriceTextView: TextView = view.findViewById(R.id.productPrice)
         productPriceTextView.text = "Qty: " + product.quantity.toString()
-        val addToCartButton = view.findViewById<Button>(R.id.addToCartButton)
-        addToCartButton.visibility = View.GONE
-        val cartViewButtonLayout = view.findViewById<LinearLayout>(R.id.cartViewButtonLayout)
-        cartViewButtonLayout.visibility = View.VISIBLE
         val removeFromCartButton = view.findViewById<Button>(R.id.removeFromCartButton)
+        removeFromCartButton.visibility = View.VISIBLE
         removeFromCartButton.setOnClickListener {
             removeProductFromCart(product)
         }
