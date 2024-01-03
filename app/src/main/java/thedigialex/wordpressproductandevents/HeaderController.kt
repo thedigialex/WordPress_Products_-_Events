@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 class HeaderController(rootView: View, private val cartLayout: View, private val cart: MutableList<Product>, private val context: Context) {
 
@@ -57,30 +58,33 @@ class HeaderController(rootView: View, private val cartLayout: View, private val
         productNameTextView.text = product.name
         val productPriceTextView: TextView = view.findViewById(R.id.productPrice)
         productPriceTextView.text = "Qty: " + product.quantity.toString()
+        val productRating: TextView = view.findViewById(R.id.productRating)
+        productRating.text = product.averageRating.toString()
         val removeFromCartButton = view.findViewById<Button>(R.id.removeFromCartButton)
         removeFromCartButton.visibility = View.VISIBLE
         removeFromCartButton.setOnClickListener {
             removeProductFromCart(product)
         }
+        val showExtraDetailsButton = view.findViewById<Button>(R.id.showExtraDetails)
+        showExtraDetailsButton.visibility = View.INVISIBLE
         val addFromCartButton = view.findViewById<Button>(R.id.addFromCartButton)
         addFromCartButton.setOnClickListener {
             addProductFromCart(product)
         }
+        val density = view.context.resources.displayMetrics.density
+        val radiusInPixels = (10 * density).toInt()
         val productImage: ImageView = view.findViewById(R.id.productImage)
         Glide.with(view.context)
             .load(product.imageUrl)
+            .transform(RoundedCorners(radiusInPixels))
             .into(productImage)
         slotHolder.addView(view)
-        addDividerToSlotHolder()
-    }
-
-    private fun addDividerToSlotHolder() {
         val divider = View(context)
         val layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             1
         )
-        layoutParams.setMargins(0, 8, 0, 8)
+        layoutParams.setMargins(0, 16, 0, 16)
         divider.layoutParams = layoutParams
         slotHolder.addView(divider)
     }

@@ -39,6 +39,8 @@
             android:gravity="center"
             android:text="Cart"
             android:textAppearance="@style/MyTextAppearance"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/scrollView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

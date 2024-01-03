@@ -12,6 +12,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -43,22 +44,31 @@ class FragmentProducts(private val headerController: HeaderController, private v
         productNameTextView.text = product.name
         val productPriceTextView: TextView = view.findViewById(R.id.productPrice)
         productPriceTextView.text = "$" + product.price.toString()
+        val productRating: TextView = view.findViewById(R.id.productRating)
+        productRating.text = product.averageRating.toString()
+
+        val extraDetailsText: TextView = view.findViewById(R.id.extraDetails)
+        extraDetailsText.text = product.shortDescription + "\n" + product.permalink
+        val topProductLayout: LinearLayout = view.findViewById(R.id.topProductLayout)
 
         val addToCartButton = view.findViewById<Button>(R.id.addFromCartButton)
         addToCartButton.setOnClickListener {
             addProductToCart(product)
             headerController.updateActivityTitle("Products")
         }
-
+        val showExtraDetailsButton = view.findViewById<Button>(R.id.showExtraDetails)
+        showExtraDetailsButton.setOnClickListener {
+            topProductLayout.visibility = if (topProductLayout.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+            extraDetailsText.visibility = if (extraDetailsText.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        }
+        val density = view.context.resources.displayMetrics.density
+        val radiusInPixels = (10 * density).toInt()
         val productImage: ImageView = view.findViewById(R.id.productImage)
         Glide.with(view.context)
             .load(product.imageUrl)
+            .transform(RoundedCorners(radiusInPixels))
             .into(productImage)
         slotHolder?.addView(view)
-        addDividerToSlotHolder()
-    }
-
-    private fun addDividerToSlotHolder() {
         val divider = View(requireContext())
         val layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -86,17 +96,35 @@ class FragmentProducts(private val headerController: HeaderController, private v
                 val id = productObject.getInt("id")
                 val name = productObject.getString("name")
                 val permalink = productObject.getString("permalink")
+                val shortDescription = productObject.getString("short_description")
+                val averageRatingString = productObject.getString("average_rating")
+                val averageRating = averageRatingString.toDoubleOrNull() ?: 0.0
+
+                val categoriesArray = productObject.getJSONArray("categories")
+                val categoriesList = mutableListOf<Product.Category>()
+                for (j in 0 until categoriesArray.length()) {
+                    val categoryObject = categoriesArray.getJSONObject(j)
+                    val categoryId = categoryObject.getInt("id")
+                    val categoryName = categoryObject.getString("name")
+                    val categorySlug = categoryObject.getString("slug")
+                    val category = Product.Category(categoryId, categoryName, categorySlug)
+                    categoriesList.add(category)
+                }
+
                 val priceString = productObject.getString("price")
                 val price = priceString.toDoubleOrNull() ?: 0.0
                 val imageUrl = productObject.getJSONArray("images").getJSONObject(0).getString("src")
                 val stockStatus = productObject.getString("stock_status")
                 val type = productObject.getString("type")
-                val product = Product(id, name, permalink, price, imageUrl, stockStatus, type)
+                val product = Product(id, name, permalink, shortDescription, averageRating, categoriesList, price, imageUrl, stockStatus, type)
                 productList.add(product)
-                if(product.stockStatus == "instock"){
 
+                if (product.stockStatus == "instock") {
+                    // Do something with in-stock products
                 }
+
                 createView(product)
+
             }
             progressBar.visibility = View.GONE
         }
